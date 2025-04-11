@@ -1,0 +1,5 @@
+module purge
+module load PrgEnv-gnu
+module load mpich/4.2.2
+module load cray-hdf5
+module load cray-netcdf
