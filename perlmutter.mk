@@ -121,7 +121,7 @@ FFLAGS_TEST := $(FFLAGS_OPT)
 CFLAGS_TEST := $(CFLAGS_OPT)
 
 # Linking flags
-LDFLAGS :=
+LDFLAGS := -L/opt/cray/pe/netcdf/4.9.0.13/gnu/12.3/lib -lnetcdf -lnetcdff
 LDFLAGS_OPENMP := -fopenmp
 LDFLAGS_VERBOSE :=
 LDFLAGS_COVERAGE :=
