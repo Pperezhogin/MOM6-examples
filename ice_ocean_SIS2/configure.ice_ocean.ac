@@ -78,17 +78,12 @@ AS_IF([test "x$with_driver" != "x"],
   [DRIVER_DIR=${srcdir}/config_src/drivers/${with_driver}])
 
 
-# Select the model framework (default: FMS1)
-# NOTE: We can phase this out after the FMS1 I/O has been removed from FMS and
-#   replace with a detection test.  For now, it is a user-defined switch.
-MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS1
-AC_ARG_WITH([framework],
-  AS_HELP_STRING([--with-framework=fms1|fms2], [Select the model framework]))
-AS_CASE(["$with_framework"],
-  [fms1], [MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS1],
-  [fms2], [MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS2],
-  [MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS1]
-)
+# Determine the FMS IO implementation.
+AX_FC_CHECK_MODULE([fms2_io_mod], [
+  MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS2
+],[
+  MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS1
+])
 
 
 # Explicitly assume free-form Fortran
@@ -244,6 +239,14 @@ AC_COMPILE_IFELSE(
 )
 
 
+# Determine the FMS IO implementation.
+AX_FC_CHECK_MODULE([fms2_io_mod], [
+  MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS2
+],[
+  MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS1
+])
+
+
 # Verify that Python is available
 AC_PATH_PROGS([PYTHON], [python python3 python2], [
   AC_MSG_ERROR([Could not find python.])
@@ -309,6 +312,18 @@ AC_CHECK_SIZEOF([jmp_buf], [], [#include <setjmp.h>])
 AC_CHECK_SIZEOF([sigjmp_buf], [], [#include <setjmp.h>])
 
 AC_LANG_POP([C])
+
+
+# Coupler macros
+AC_DEFINE([use_AM3_physics])
+AC_DEFINE([_USE_LEGACY_LAND_])
+
+
+# TODO: We cannot currently provide tests for these libraries, and explicitly
+#   setting LIBS in the Makefile will append, rather than prepend, the flags,
+#   which would break the ordering.
+# For now, we explicitly prepend these libraries, but this needs to be fixed.
+LIBS="-licebergs -lice_param -latmos_null -lland_null ${LIBS}"
 
 
 # Prepare output

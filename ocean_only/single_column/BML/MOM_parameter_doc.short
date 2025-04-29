@@ -152,8 +152,6 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
 ! === module MOM_lateral_mixing_coeffs ===
 
 ! === module MOM_set_visc ===
-PRANDTL_TURB = 0.0              !   [nondim] default = 1.0
-                                ! The turbulent Prandtl number applied to shear instability.
 HBBL = 10.0                     !   [m]
                                 ! The thickness of a bottom boundary layer with a viscosity increased by
                                 ! KV_EXTRA_BBL if BOTTOMDRAGLAW is not defined, or the thickness over which
@@ -177,11 +175,7 @@ KV = 1.0E-04                    !   [m2 s-1]
 
 ! === module MOM_thickness_diffuse ===
 
-! === module MOM_porous_barriers ===
-
 ! === module MOM_dynamics_unsplit ===
-
-! === module MOM_continuity ===
 
 ! === module MOM_continuity_PPM ===
 UPWIND_1ST_CONTINUITY = True    !   [Boolean] default = False
@@ -262,6 +256,8 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
+PRANDTL_TURB = 0.0              !   [nondim] default = 1.0
+                                ! The turbulent Prandtl number applied to shear instability.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -323,8 +319,7 @@ BUOY_CONFIG = "data_override"   ! default = "zero"
 WIND_CONFIG = "data_override"   ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified.  Valid
                                 ! options include (file), (data_override), (2gyre), (1gyre), (gyres), (zero),
-                                ! (const), (Neverworld), (scurves), (ideal_hurr), (SCM_ideal_hurr),
-                                ! (SCM_CVmix_tests) and (USER).
+                                ! (const), (Neverworld), (scurves), (ideal_hurr), (SCM_CVmix_tests) and (USER).
 READ_GUST_2D = True             !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 GUST_2D_FILE = "forcing_monthly.nc" !
